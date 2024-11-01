@@ -3,6 +3,8 @@ const prisma = new PrismaClient();
 
 module.exports = {
   // CREATE METHODS
+
+  // Create Post
   postPost: async (req, res) => {
     const { title, image, text, status, authorId } = req.body;
 
@@ -32,6 +34,7 @@ module.exports = {
     }
   },
 
+  // Create Comment
   commentPost: async (req, res) => {
     const { postId } = req.params;
     const { text, userId } = req.body;
@@ -160,6 +163,74 @@ module.exports = {
     } catch (error) {
       console.error("Error fetching post:", error);
       res.status(500).json({ error: "Failed to fetch post" });
+    }
+  },
+
+  // UPDATE METHODS
+
+  // Update a specific post
+  postUpdate: async (req, res) => {
+    const { id } = req.params;
+    const { title, image, text, status } = req.body;
+
+    if (!title && !image && !text && !status) {
+      return res
+        .status(400)
+        .json({ error: "At least one field is required to update." });
+    }
+
+    try {
+      const updatedPost = await prisma.post.update({
+        where: { id: parseInt(id) },
+        data: {
+          ...(title && { title }),
+          ...(image && { image }),
+          ...(text && { text }),
+          ...(status && { status }),
+        },
+      });
+
+      res.json(updatedPost);
+    } catch (error) {
+      console.error("Error updating post:", error);
+      res.status(500).json({ error: "Failed to update post" });
+    }
+  },
+
+  // Update a specific comment
+  commentUpdate: async (req, res) => {
+    const { postId, id } = req.params;
+    const { text } = req.body;
+
+    if (!text) {
+      return res
+        .status(400)
+        .json({ error: "Text is required to update the comment." });
+    }
+
+    try {
+      const existingComment = await prisma.comment.findFirst({
+        where: {
+          id: parseInt(id),
+          postId: parseInt(postId),
+        },
+      });
+
+      if (!existingComment) {
+        return res
+          .status(404)
+          .json({ error: "Comment not found for this post." });
+      }
+
+      const updatedComment = await prisma.comment.update({
+        where: { id: parseInt(id) },
+        data: { text },
+      });
+
+      res.json(updatedComment);
+    } catch (error) {
+      console.error("Error updating comment:", error);
+      res.status(500).json({ error: "Failed to update comment" });
     }
   },
 };

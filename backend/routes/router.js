@@ -11,4 +11,8 @@ router.get("/posts/:id", controller.postByIdGet);
 router.post("/posts", controller.postPost);
 router.post("/posts/:postId/comments", controller.commentPost);
 
+// PUT ROUTES
+router.put("/posts/:id", controller.postUpdate);
+router.put("/posts/:postId/comments/:id", controller.commentUpdate);
+
 module.exports = router;
