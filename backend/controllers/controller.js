@@ -233,4 +233,54 @@ module.exports = {
       res.status(500).json({ error: "Failed to update comment" });
     }
   },
+
+  // DELETE METHODS
+
+  // Delete a specific post
+  postDelete: async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const deletedPost = await prisma.post.delete({
+        where: { id: parseInt(id) },
+      });
+
+      res.json({ message: "Post deleted successfully", post: deletedPost });
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      res.status(500).json({ error: "Failed to delete post" });
+    }
+  },
+
+  // Delete a specific comment within a specific post
+  commentDelete: async (req, res) => {
+    const { postId, id } = req.params;
+
+    try {
+      const existingComment = await prisma.comment.findFirst({
+        where: {
+          id: parseInt(id),
+          postId: parseInt(postId),
+        },
+      });
+
+      if (!existingComment) {
+        return res
+          .status(404)
+          .json({ error: "Comment not found for this post." });
+      }
+
+      const deletedComment = await prisma.comment.delete({
+        where: { id: parseInt(id) },
+      });
+
+      res.json({
+        message: "Comment deleted successfully",
+        comment: deletedComment,
+      });
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      res.status(500).json({ error: "Failed to delete comment" });
+    }
+  },
 };
