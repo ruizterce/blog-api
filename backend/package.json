@@ -4,7 +4,8 @@
   "description": "Multi-Frontend Blogging Platform with Backend API. This project demonstrates the design of a blogging platform that separates backend and frontend functionalities into three parts: a backend API and two distinct frontend interfaces.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:seed": "node prisma/seed.js"
   },
   "repository": {
     "type": "git",
