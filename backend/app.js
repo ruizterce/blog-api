@@ -5,6 +5,10 @@ const PORT = process.env.PORT;
 const router = require("./routes/router");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const cors = require("cors");
+
+// Allow requests from frontend dev (http://localhost:5173)
+app.use(cors({ origin: "http://localhost:5173" }));
 
 app.use(express.json());
 
