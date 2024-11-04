@@ -1,34 +1,44 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchPostById } from "../services/api"; // Adjust the import path as necessary
+import { fetchPostById } from "../services/api";
+import {
+  Container,
+  Typography,
+  CircularProgress,
+  List,
+  ListItem,
+} from "@mui/material";
+import "../styles/styles.css";
 
 const PostDetails = () => {
-  const { id } = useParams(); // Get the post ID from the URL
-  const [post, setPost] = useState(null); // Store the post data
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
+  const { id } = useParams();
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const data = await fetchPostById(id); // Use the API service to fetch the post
-        setPost(data); // Set the post data
+        const data = await fetchPostById(id);
+        setPost(data);
       } catch (error) {
-        setError(error.message); // Set error if fetch fails
+        setError(error.message);
       } finally {
-        setLoading(false); // Loading done
+        setLoading(false);
       }
     };
 
     fetchPost();
   }, [id]);
 
-  if (loading) return <p>Loading post...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <CircularProgress />;
+  if (error) return <Typography color="error">Error: {error}</Typography>;
 
   return (
-    <div className="post-details">
-      <h1>{post.title}</h1>
+    <Container className="container">
+      <Typography variant="h4" component="h1" gutterBottom>
+        {post.title}
+      </Typography>
       {post.image && (
         <img
           src={post.image}
@@ -36,25 +46,31 @@ const PostDetails = () => {
           className="post-image"
         />
       )}
-      <p className="post-text">{post.text}</p>
-      <div className="post-meta">
-        <span>Author: {post.author.username}</span>
-        <span>Published: {new Date(post.createdAt).toLocaleDateString()}</span>
-      </div>
+      <Typography variant="body1" paragraph>
+        {post.text}
+      </Typography>
+      <Typography variant="subtitle1" color="textSecondary">
+        Author: {post.author.username}
+      </Typography>
+      <Typography variant="subtitle1" color="textSecondary">
+        Published: {new Date(post.createdAt).toLocaleDateString()}
+      </Typography>
 
-      <h2>Comments ({post.comments.length})</h2>
-      <ul className="comments-list">
+      <Typography variant="h5" component="h2" gutterBottom>
+        Comments ({post.comments.length})
+      </Typography>
+      <List>
         {post.comments.map((comment) => (
-          <li key={comment.id} className="comment">
-            <p>{comment.text}</p>
-            <div className="comment-meta">
-              <span>by {comment.user.username}</span>
-              <span>on {new Date(comment.createdAt).toLocaleDateString()}</span>
-            </div>
-          </li>
+          <ListItem key={comment.id}>
+            <Typography>{comment.text}</Typography>
+            <Typography variant="caption" color="text.secondary">
+              by {comment.user.username} on{" "}
+              {new Date(comment.createdAt).toLocaleDateString()}
+            </Typography>
+          </ListItem>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Container>
   );
 };
 
