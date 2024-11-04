@@ -56,11 +56,11 @@ async function main() {
     },
   });
 
-  // Create posts with comments
+  // Create posts with comments and local images
   await prisma.post.create({
     data: {
       title: "First Post by Author 1",
-      image: "https://example.com/image1.jpg",
+      image: "/uploads/images/post1.jpg",
       text: "This is the content of the first post.",
       status: "PUBLISHED",
       authorId: author1.id,
@@ -76,7 +76,7 @@ async function main() {
   await prisma.post.create({
     data: {
       title: "Second Post by Author 1",
-      image: "https://example.com/image2.jpg",
+      image: "/uploads/images/post2.jpg",
       text: "Content for the second post.",
       status: "UNPUBLISHED",
       authorId: author1.id,
@@ -91,7 +91,7 @@ async function main() {
   await prisma.post.create({
     data: {
       title: "Third Post by Author 1",
-      image: "https://example.com/image4.jpg",
+      image: "/uploads/images/post3.jpg",
       text: "Another interesting post by Author 1.",
       status: "PUBLISHED",
       authorId: author1.id,
@@ -108,7 +108,7 @@ async function main() {
   await prisma.post.create({
     data: {
       title: "First Post by Author 2",
-      image: "https://example.com/image3.jpg",
+      image: "/uploads/images/post4.jpg",
       text: "Content for the post by Author 2.",
       status: "PUBLISHED",
       authorId: author2.id,
@@ -124,7 +124,7 @@ async function main() {
   await prisma.post.create({
     data: {
       title: "Second Post by Author 2",
-      image: "https://example.com/image5.jpg",
+      image: "/uploads/images/post5.jpg",
       text: "An insightful post from Author 2.",
       status: "UNPUBLISHED",
       authorId: author2.id,
@@ -134,7 +134,7 @@ async function main() {
   await prisma.post.create({
     data: {
       title: "Third Post by Author 2",
-      image: "https://example.com/image6.jpg",
+      image: "/uploads/images/post6.jpg",
       text: "Another article by Author 2 on trending topics.",
       status: "PUBLISHED",
       authorId: author2.id,
@@ -147,7 +147,7 @@ async function main() {
     },
   });
 
-  console.log("Database has been seeded with mock data");
+  console.log("Database has been seeded with mock data and local images");
 }
 
 main()

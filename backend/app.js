@@ -12,7 +12,10 @@ const cors = require("cors");
 app.use(cors({ origin: "http://localhost:5173" }));
 
 // Serve static files from 'uploads'
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(
+  "/api/uploads/images",
+  express.static(path.join(__dirname, "uploads/images"))
+);
 
 app.use(express.json());
 

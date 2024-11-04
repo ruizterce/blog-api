@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const StyledLink = styled(Link)({
   textDecoration: "none",
@@ -114,7 +115,9 @@ const PostCard = ({ post }) => {
           <CardMedia
             component="img"
             alt={post.title}
-            image={post.image || "../assets/placeholder-image.jpg"}
+            image={
+              `${apiUrl}${post.image}` || "../assets/placeholder-image.jpg"
+            }
             sx={{
               aspectRatio: "16 / 9",
               borderBottom: "1px solid",

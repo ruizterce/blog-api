@@ -17,6 +17,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import "../styles/styles.css";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -54,7 +55,7 @@ const PostDetails = () => {
         {post.image && (
           <CardMedia
             component="img"
-            image={post.image || "../assets/placeholder-image.jpg"}
+            image={`${apiUrl}${post.image}`}
             alt={`${post.title} cover`}
             sx={{
               height: 300,
