@@ -1,12 +1,28 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const multer = require("multer");
+const path = require("path");
+
+// Configure multer for storing images in the 'uploads' folder
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Save with timestamp for uniqueness
+  },
+});
+
+const upload = multer({ storage });
 
 module.exports = {
+  upload,
   // CREATE METHODS
 
   // Create Post
   postPost: async (req, res) => {
-    const { title, image, text, status, authorId } = req.body;
+    const { title, text, status, authorId } = req.body;
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
     if (!title || !text || !status || !authorId) {
       return res
@@ -18,11 +34,11 @@ module.exports = {
       const newPost = await prisma.post.create({
         data: {
           title,
-          image,
+          image: imageUrl,
           text,
           status,
           author: {
-            connect: { id: authorId },
+            connect: { id: parseInt(authorId) },
           },
         },
       });

@@ -114,7 +114,7 @@ const PostCard = ({ post }) => {
           <CardMedia
             component="img"
             alt={post.title}
-            image={post.image}
+            image={post.image || "../assets/placeholder-image.jpg"}
             sx={{
               aspectRatio: "16 / 9",
               borderBottom: "1px solid",

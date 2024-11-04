@@ -54,7 +54,7 @@ const PostDetails = () => {
         {post.image && (
           <CardMedia
             component="img"
-            image={post.image}
+            image={post.image || "../assets/placeholder-image.jpg"}
             alt={`${post.title} cover`}
             sx={{
               height: 300,

@@ -13,6 +13,7 @@ router.post(
   "/posts",
   usersController.authenticateJwt,
   usersController.roleCheck("AUTHOR"),
+  controller.upload.single("image"),
   controller.postPost
 );
 router.post("/posts/:postId/comments", controller.commentPost);
