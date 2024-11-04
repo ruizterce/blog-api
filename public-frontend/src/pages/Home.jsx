@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { fetchPosts } from "../services/api";
 import PostCard from "../components/PostCard";
 import { Container, Typography, Grid2, CircularProgress } from "@mui/material";
+
 import "../styles/styles.css";
 
 const Home = () => {
@@ -33,7 +34,7 @@ const Home = () => {
       </Typography>
       <Grid2 container spacing={2}>
         {posts.map((post) => (
-          <Grid2 item xs={12} sm={6} md={4} key={post.id}>
+          <Grid2 size={{ xs: 12, md: 6 }} key={post.id}>
             <PostCard post={post} />
           </Grid2>
         ))}

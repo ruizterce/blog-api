@@ -5,8 +5,16 @@ import {
   Container,
   Typography,
   CircularProgress,
+  Card,
+  CardContent,
+  CardMedia,
+  Avatar,
+  Box,
+  Divider,
   List,
   ListItem,
+  ListItemAvatar,
+  ListItemText,
 } from "@mui/material";
 import "../styles/styles.css";
 
@@ -31,45 +39,77 @@ const PostDetails = () => {
     fetchPost();
   }, [id]);
 
-  if (loading) return <CircularProgress />;
-  if (error) return <Typography color="error">Error: {error}</Typography>;
+  if (loading)
+    return <CircularProgress sx={{ display: "block", mx: "auto", mt: 4 }} />;
+  if (error)
+    return (
+      <Typography color="error" sx={{ mt: 2 }}>
+        Error: {error}
+      </Typography>
+    );
 
   return (
-    <Container className="container">
-      <Typography variant="h4" component="h1" gutterBottom>
-        {post.title}
-      </Typography>
-      {post.image && (
-        <img
-          src={post.image}
-          alt={`${post.title} cover`}
-          className="post-image"
-        />
-      )}
-      <Typography variant="body1" paragraph>
-        {post.text}
-      </Typography>
-      <Typography variant="subtitle1" color="textSecondary">
-        Author: {post.author.username}
-      </Typography>
-      <Typography variant="subtitle1" color="textSecondary">
-        Published: {new Date(post.createdAt).toLocaleDateString()}
-      </Typography>
+    <Container maxWidth="md" sx={{ mt: 4 }}>
+      <Card>
+        {post.image && (
+          <CardMedia
+            component="img"
+            image={post.image}
+            alt={`${post.title} cover`}
+            sx={{
+              height: 300,
+              borderRadius: "4px",
+              mb: 2,
+            }}
+          />
+        )}
+        <CardContent>
+          <Typography variant="h4" component="h1" gutterBottom>
+            {post.title}
+          </Typography>
+          <Box display="flex" alignItems="center" gap={2} mb={2}>
+            <Avatar alt={post.author.username} src={post.author.avatar} />
+            <Box>
+              <Typography variant="subtitle2">
+                {post.author.username}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                Published: {new Date(post.createdAt).toLocaleDateString()}
+              </Typography>
+            </Box>
+          </Box>
+          <Typography variant="body1" paragraph>
+            {post.text}
+          </Typography>
+        </CardContent>
+      </Card>
 
-      <Typography variant="h5" component="h2" gutterBottom>
-        Comments ({post.comments.length})
-      </Typography>
-      <List>
-        {post.comments.map((comment) => (
-          <ListItem key={comment.id}>
-            <Typography>{comment.text}</Typography>
-            <Typography variant="caption" color="text.secondary">
-              by {comment.user.username} on{" "}
-              {new Date(comment.createdAt).toLocaleDateString()}
-            </Typography>
-          </ListItem>
-        ))}
-      </List>
+      <Box mt={4}>
+        <Typography variant="h5" component="h2" gutterBottom>
+          Comments ({post.comments.length})
+        </Typography>
+        <Divider sx={{ mb: 2 }} />
+        <List>
+          {post.comments.map((comment) => (
+            <ListItem key={comment.id} alignItems="flex-start">
+              <ListItemAvatar>
+                <Avatar alt={comment.user.username} src={comment.user.avatar} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <Typography variant="body2">{comment.text}</Typography>
+                }
+                secondary={
+                  <Typography variant="caption" color="text.secondary">
+                    by {comment.user.username} on{" "}
+                    {new Date(comment.createdAt).toLocaleDateString()}
+                  </Typography>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
     </Container>
   );
 };
