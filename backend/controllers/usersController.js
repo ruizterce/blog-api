@@ -76,12 +76,32 @@ module.exports = {
       if (req.user && req.user.role === role) {
         return next(); // User is authorized, proceed to the next middleware/route handler
       }
-      return res
-        .status(403)
-        .json({
-          error:
-            "Forbidden: You do not have permission to perform this action.",
-        });
+      return res.status(403).json({
+        error: "Forbidden: You do not have permission to perform this action.",
+      });
     };
+  },
+
+  userProfileGet: async (req, res) => {
+    try {
+      console.log(req.user.id);
+      const user = await prisma.user.findUnique({
+        where: { id: req.user.id },
+        select: {
+          username: true,
+          email: true,
+          role: true,
+        },
+      });
+
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      res.json(user);
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+      res.status(500).json({ error: "Failed to fetch user profile" });
+    }
   },
 };

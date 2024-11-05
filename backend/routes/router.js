@@ -7,6 +7,11 @@ const usersController = require("../controllers/usersController");
 router.get("/", controller.get);
 router.get("/posts", controller.postsGet);
 router.get("/posts/:id", controller.postByIdGet);
+router.get(
+  "/user/profile",
+  usersController.authenticateJwt,
+  usersController.userProfileGet
+);
 
 // POST ROUTES
 router.post(
