@@ -58,14 +58,17 @@ const PostDetails = () => {
             image={`${apiUrl}${post.image}`}
             alt={`${post.title} cover`}
             sx={{
-              height: 300,
+              height: 600,
               borderRadius: "4px",
               mb: 2,
+              objectFit: "cover",
+              objectPosition: "center",
+              width: "100%",
             }}
           />
         )}
         <CardContent>
-          <Typography variant="h4" component="h1" gutterBottom>
+          <Typography variant="h4" component="h1" color="primary" gutterBottom>
             {post.title}
           </Typography>
           <Box display="flex" alignItems="center" gap={2} mb={2}>
@@ -102,8 +105,11 @@ const PostDetails = () => {
                 }
                 secondary={
                   <Typography variant="caption" color="text.secondary">
-                    by {comment.user.username} on{" "}
-                    {new Date(comment.createdAt).toLocaleDateString()}
+                    by{" "}
+                    <Typography variant="caption" color="secondary">
+                      {comment.user.username}
+                    </Typography>{" "}
+                    on {new Date(comment.createdAt).toLocaleDateString()}
                   </Typography>
                 }
               />

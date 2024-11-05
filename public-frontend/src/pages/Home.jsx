@@ -51,6 +51,7 @@ const Home = () => {
         <Typography
           variant="h6"
           component="h1"
+          color="primary"
           gutterBottom
           sx={{ flexGrow: 1, minWidth: 220, margin: 0 }}
         >

@@ -122,6 +122,9 @@ const PostCard = ({ post }) => {
               aspectRatio: "16 / 9",
               borderBottom: "1px solid",
               borderColor: "divider",
+              objectFit: "cover",
+              objectPosition: "center",
+              width: "100%",
             }}
           />
         )}
