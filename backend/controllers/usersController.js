@@ -84,10 +84,10 @@ module.exports = {
 
   userProfileGet: async (req, res) => {
     try {
-      console.log(req.user.id);
       const user = await prisma.user.findUnique({
         where: { id: req.user.id },
         select: {
+          id: true,
           username: true,
           email: true,
           role: true,

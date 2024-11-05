@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchPostById } from "../services/api";
+import { fetchPostById, fetchUserProfile, postComment } from "../services/api";
 import {
   Container,
   Typography,
@@ -15,6 +15,8 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  TextField,
+  Button,
 } from "@mui/material";
 import "../styles/styles.css";
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -24,6 +26,8 @@ const PostDetails = () => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [user, setUser] = useState(null);
+  const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -37,8 +41,43 @@ const PostDetails = () => {
       }
     };
 
+    const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const userData = await fetchUserProfile(token);
+          setUser(userData);
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+        }
+      }
+    };
+
     fetchPost();
+    fetchUser();
   }, [id]);
+
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    if (!newComment.trim()) return;
+
+    try {
+      const commentData = await postComment(id, {
+        text: newComment,
+        userId: user.id,
+      });
+      setPost((prevPost) => ({
+        ...prevPost,
+        comments: [
+          ...prevPost.comments,
+          { ...commentData, user: { username: user.username } },
+        ],
+      }));
+      setNewComment("");
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+    }
+  };
 
   if (loading)
     return <CircularProgress sx={{ display: "block", mx: "auto", mt: 4 }} />;
@@ -116,6 +155,24 @@ const PostDetails = () => {
             </ListItem>
           ))}
         </List>
+
+        {user && (
+          <Box component="form" onSubmit={handleCommentSubmit} sx={{ mt: 3 }}>
+            <TextField
+              label="Add a comment"
+              variant="outlined"
+              fullWidth
+              multiline
+              minRows={3}
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              sx={{ mb: 2 }}
+            />
+            <Button type="submit" variant="contained" color="primary">
+              Post Comment
+            </Button>
+          </Box>
+        )}
       </Box>
     </Container>
   );

@@ -21,7 +21,11 @@ router.post(
   controller.upload.single("image"),
   controller.postPost
 );
-router.post("/posts/:postId/comments", controller.commentPost);
+router.post(
+  "/posts/:postId/comments",
+  usersController.authenticateJwt,
+  controller.commentPost
+);
 router.post("/register", usersController.register);
 router.post("/login", usersController.login);
 

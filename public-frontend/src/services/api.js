@@ -51,6 +51,14 @@ export const fetchUserProfile = async (token) => {
   return response.data;
 };
 
+export const postComment = async (postId, commentData) => {
+  const response = await apiClient.post(
+    `/posts/${postId}/comments`,
+    commentData
+  );
+  return response.data;
+};
+
 export const logout = () => {
   localStorage.removeItem("token");
 };
