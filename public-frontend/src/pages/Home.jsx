@@ -38,8 +38,8 @@ const Home = () => {
 
   const filteredPosts = posts.filter(
     (post) =>
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) || // Search in title
-      post.text.toLowerCase().includes(searchTerm.toLowerCase()) // Search in text
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.text.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (loading) return <CircularProgress />;
@@ -47,7 +47,7 @@ const Home = () => {
 
   return (
     <Container className="container" sx={{ marginTop: 0 }}>
-      <Box display={"flex"} margin={1}>
+      <Box display={"flex"} marginTop={1} marginBottom={1}>
         <Typography
           variant="h6"
           component="h1"
@@ -66,23 +66,29 @@ const Home = () => {
             onChange={handleSearchChange}
             sx={{
               "& .MuiInputBase-input": {
-                fontSize: "0.8rem", // Smaller font size
-                padding: "6px 8px", // Reduced padding
+                fontSize: "0.8rem",
+                padding: "6px 8px",
               },
               "& .MuiOutlinedInput-root": {
-                height: "32px", // Set a custom height if needed
+                height: "32px",
               },
             }}
           />
         </Box>
       </Box>
-      <Grid2 container spacing={2}>
-        {filteredPosts.map((post) => (
-          <Grid2 size={{ xs: 12, md: 6 }} key={post.id}>
-            <PostCard post={post} />
-          </Grid2>
-        ))}
-      </Grid2>
+      {filteredPosts.length === 0 ? (
+        <Typography variant="body1" color="textSecondary" sx={{ mt: 2 }}>
+          No posts found matching your search criteria.
+        </Typography>
+      ) : (
+        <Grid2 container spacing={2}>
+          {filteredPosts.map((post) => (
+            <Grid2 size={{ xs: 12, md: 6 }} key={post.id}>
+              <PostCard post={post} />
+            </Grid2>
+          ))}
+        </Grid2>
+      )}
     </Container>
   );
 };
