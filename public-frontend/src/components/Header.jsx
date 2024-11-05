@@ -28,6 +28,7 @@ const Header = () => {
   const handleLogout = () => {
     logout();
     setUsername(null);
+    window.location.href = "/";
   };
 
   return (

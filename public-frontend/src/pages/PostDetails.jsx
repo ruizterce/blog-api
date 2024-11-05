@@ -17,7 +17,9 @@ import {
   ListItemText,
   TextField,
   Button,
+  Modal,
 } from "@mui/material";
+import ModalContainer from "../components/ModalContainer";
 import "../styles/styles.css";
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -156,7 +158,7 @@ const PostDetails = () => {
           ))}
         </List>
 
-        {user && (
+        {user ? (
           <Box component="form" onSubmit={handleCommentSubmit} sx={{ mt: 3 }}>
             <TextField
               label="Add a comment"
@@ -172,6 +174,8 @@ const PostDetails = () => {
               Post Comment
             </Button>
           </Box>
+        ) : (
+          <ModalContainer />
         )}
       </Box>
     </Container>
