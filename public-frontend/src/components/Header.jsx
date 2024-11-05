@@ -6,6 +6,10 @@ import { fetchUserProfile, logout } from "../services/api";
 const Header = () => {
   const [username, setUsername] = useState(null);
 
+  const handleLogoClick = () => {
+    window.location.href = "/";
+  };
+
   useEffect(() => {
     const fetchUsername = async () => {
       const token = localStorage.getItem("token");
@@ -33,19 +37,31 @@ const Header = () => {
         sx={{
           display: "flex",
           flexDirection: "row",
+          gap: "10px",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <Typography variant="h6" component="div">
-          My Blog
-        </Typography>
-        <Typography variant="subtitle1" color="textSecondary">
+        <Button
+          onClick={handleLogoClick}
+          sx={{ textTransform: "none", color: "inherit" }}
+        >
+          <Typography variant="h6" component="div">
+            My Blog
+          </Typography>
+        </Button>
+        <Typography
+          variant="subtitle1"
+          color="textSecondary"
+          sx={{
+            display: { xs: "none", sm: "block" },
+          }}
+        >
           Your daily dose of knowledge
         </Typography>
         {username ? (
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Typography variant="body1" sx={{ marginRight: 2 }}>
+            <Typography variant="body1" sx={{ marginRight: 1 }}>
               Welcome, {username}!
             </Typography>
             <Button color="inherit" onClick={handleLogout}>
