@@ -8,8 +8,19 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const cors = require("cors");
 
-// Allow requests from frontend dev (http://localhost:5173)
-app.use(cors({ origin: "http://localhost:5173" }));
+// Allow requests from frontend dev environments
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (allowedOrigins.includes(origin) || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
 
 // Serve static files from 'uploads'
 app.use(
