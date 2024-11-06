@@ -21,12 +21,31 @@ const LoginForm = () => {
   };
 
   return (
-    <>
-      <Box component="form" onSubmit={handleSubmit} sx={{ padding: 3 }}>
-        <Typography variant="h6" gutterBottom>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="70vh"
+    >
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          padding: 3,
+          maxWidth: 400,
+          width: "100%",
+          boxShadow: 3,
+          borderRadius: 2,
+        }}
+      >
+        <Typography variant="h6" gutterBottom align="center">
           Login
         </Typography>
-        {error && <Typography color="error">{error}</Typography>}{" "}
+        {error && (
+          <Typography color="error" align="center" sx={{ mb: 2 }}>
+            {error}
+          </Typography>
+        )}
         <TextField
           label="Username"
           fullWidth
@@ -52,7 +71,7 @@ const LoginForm = () => {
           Login
         </Button>
       </Box>
-    </>
+    </Box>
   );
 };
 

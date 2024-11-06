@@ -4,7 +4,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { ThemeProvider } from "@mui/material";
+import { ThemeProvider, Box } from "@mui/material";
 import theme from "./theme";
 
 import Header from "./components/Header";
@@ -17,17 +17,19 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Header />
-        <Router>
-          <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/login" element={<Login />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/dashboard" element={<PostsTable />} />
-            </Route>
-          </Routes>
-        </Router>
-        <Footer />
+        <Box display="flex" flexDirection="column" minHeight="100vh">
+          <Header />
+          <Router>
+            <Routes>
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/login" element={<Login />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/dashboard" element={<PostsTable />} />
+              </Route>
+            </Routes>
+          </Router>
+          <Footer />
+        </Box>
       </ThemeProvider>
     </>
   );
