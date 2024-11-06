@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { fetchPosts } from "../services/api";
+import { useNavigate } from "react-router-dom";
+import { fetchPosts, deletePost } from "../services/api";
 import {
   Container,
   Typography,
@@ -13,11 +14,15 @@ import {
   TableRow,
   TableCell,
   Paper,
+  Button,
+  ButtonGroup,
 } from "@mui/material";
-
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import "../styles/styles.css";
 
-const Home = () => {
+const PostsTable = () => {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -47,21 +52,45 @@ const Home = () => {
       post.text.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleDelete = async (postId) => {
+    try {
+      await deletePost(postId);
+
+      const updatedPosts = await fetchPosts();
+      setPosts(updatedPosts);
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
+
   if (loading) return <CircularProgress />;
   if (error) return <Typography color="error">Error: {error}</Typography>;
 
   return (
     <Container className="container" sx={{ marginTop: 0 }}>
-      <Box display={"flex"} marginTop={1} marginBottom={1}>
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        marginTop={1}
+        marginBottom={1}
+      >
         <Typography
           variant="h6"
           component="h1"
           color="primary"
           gutterBottom
-          sx={{ flexGrow: 1, minWidth: 220, margin: 0 }}
+          sx={{ margin: 0 }}
         >
           Blog Posts
         </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate("/new-post")}
+        >
+          New Post
+        </Button>
         <Box sx={{ width: "100%", maxWidth: 300, flexShrink: 1 }}>
           <TextField
             fullWidth
@@ -114,6 +143,20 @@ const Home = () => {
                   <TableCell>{post.createdAt}</TableCell>
                   <TableCell>{post.updatedAt}</TableCell>
                   <TableCell>{post.status}</TableCell>
+                  <TableCell>
+                    <ButtonGroup orientation="vertical">
+                      <Button>
+                        <EditNoteIcon
+                          onClick={() => navigate(`/edit-post/${post.id}`)}
+                        ></EditNoteIcon>
+                      </Button>
+                      <Button>
+                        <DeleteForeverIcon
+                          onClick={() => handleDelete(post.id)}
+                        ></DeleteForeverIcon>
+                      </Button>
+                    </ButtonGroup>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -124,4 +167,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default PostsTable;

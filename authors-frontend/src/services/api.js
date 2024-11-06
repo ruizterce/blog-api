@@ -91,3 +91,32 @@ export const postComment = async (postId, commentData) => {
 export const logout = () => {
   localStorage.removeItem("token");
 };
+
+export const createPost = async (postData) => {
+  const author = await fetchUserProfile();
+  const authorId = author.id;
+  postData = { ...postData, authorId };
+  console.log(postData);
+  const response = await apiClient.post("/posts", postData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
+};
+
+export const deletePost = async (postId) => {
+  const isConfirmed = window.confirm(
+    "Are you sure you want to delete this post?"
+  );
+
+  if (isConfirmed) {
+    try {
+      const response = await apiClient.delete(`/posts/${postId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      throw error;
+    }
+  } else {
+    console.log("Post deletion canceled.");
+  }
+};

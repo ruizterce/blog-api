@@ -12,6 +12,7 @@ import Footer from "./components/Footer";
 import PostsTable from "./pages/PostsTable";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NewPost from "./pages/NewPost";
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard" element={<PostsTable />} />
+                <Route path="/new-post" element={<NewPost />} />
+                <Route path="/edit-post/:id" element={<NewPost />} />
               </Route>
             </Routes>
           </Router>
