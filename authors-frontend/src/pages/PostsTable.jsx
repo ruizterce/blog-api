@@ -16,9 +16,12 @@ import {
   Paper,
   Button,
   ButtonGroup,
+  Dialog,
+  DialogContent,
 } from "@mui/material";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import CloseIcon from "@mui/icons-material/Close";
 import "../styles/styles.css";
 
 const PostsTable = () => {
@@ -27,6 +30,7 @@ const PostsTable = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     const getPosts = async () => {
@@ -61,6 +65,14 @@ const PostsTable = () => {
     } catch (error) {
       console.error("Error deleting post:", error);
     }
+  };
+
+  const handleImageClick = (imageUrl) => {
+    setSelectedImage(imageUrl);
+  };
+
+  const handleImageClose = () => {
+    setSelectedImage(null);
   };
 
   if (loading) return <CircularProgress />;
@@ -137,7 +149,18 @@ const PostsTable = () => {
                 >
                   <TableCell>{post.id}</TableCell>
                   <TableCell>{post.author}</TableCell>
-                  <TableCell> {post.image}</TableCell>
+                  <TableCell>
+                    {" "}
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleImageClick(post.image);
+                      }}
+                    >
+                      {post.image}
+                    </a>
+                  </TableCell>
                   <TableCell>{post.title}</TableCell>
                   <TableCell>{post.text}</TableCell>
                   <TableCell>{post.createdAt}</TableCell>
@@ -163,6 +186,22 @@ const PostsTable = () => {
           </Table>
         </TableContainer>
       )}
+      <Dialog open={!!selectedImage} onClose={handleImageClose}>
+        <DialogContent>
+          <CloseIcon
+            aria-label="close"
+            onClick={handleImageClose}
+            sx={{ position: "absolute", right: 8, top: 8 }}
+          ></CloseIcon>
+          {selectedImage && (
+            <img
+              src={`${import.meta.env.VITE_API_URL + selectedImage}`}
+              alt="Post"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </Container>
   );
 };
