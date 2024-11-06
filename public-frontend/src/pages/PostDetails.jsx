@@ -17,7 +17,6 @@ import {
   ListItemText,
   TextField,
   Button,
-  Modal,
 } from "@mui/material";
 import ModalContainer from "../components/ModalContainer";
 import "../styles/styles.css";

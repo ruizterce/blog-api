@@ -15,7 +15,7 @@ async function main() {
     data: {
       username: "author1",
       email: "author1@example.com",
-      password: "hashedpassword1",
+      password: "$2b$10$1xPqT.i.AO8TOtWVHHWVkuSEQwDSgkK3L/qC8MDWslSXioFhEAg0.",
       role: "AUTHOR",
     },
   });
@@ -33,7 +33,7 @@ async function main() {
     data: {
       username: "visitor1",
       email: "visitor1@example.com",
-      password: "hashedpassword3",
+      password: "$2b$10$1xPqT.i.AO8TOtWVHHWVkuSEQwDSgkK3L/qC8MDWslSXioFhEAg0.",
       role: "VISITOR",
     },
   });
