@@ -6,7 +6,7 @@ const path = require("path");
 // Configure multer for storing images in the 'uploads' folder
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");
+    cb(null, "uploads/images/");
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname)); // Save with timestamp for uniqueness
@@ -22,7 +22,7 @@ module.exports = {
   // Create Post
   postPost: async (req, res) => {
     const { title, text, status, authorId } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    const imageUrl = req.file ? `/uploads/images/${req.file.filename}` : null;
 
     if (!title || !text || !status || !authorId) {
       return res
