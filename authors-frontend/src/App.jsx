@@ -13,6 +13,7 @@ import PostsTable from "./pages/PostsTable";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NewPost from "./pages/NewPost";
+import EditPost from "./pages/EditPost";
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard" element={<PostsTable />} />
                 <Route path="/new-post" element={<NewPost />} />
-                <Route path="/edit-post/:id" element={<NewPost />} />
+                <Route path="/edit-post/:id" element={<EditPost />} />
               </Route>
             </Routes>
           </Router>

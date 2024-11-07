@@ -34,6 +34,7 @@ router.put(
   "/posts/:id",
   usersController.authenticateJwt,
   usersController.roleCheck("AUTHOR"),
+  controller.upload.single("image"),
   controller.postUpdate
 );
 router.put(

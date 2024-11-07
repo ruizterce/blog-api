@@ -186,8 +186,10 @@ module.exports = {
 
   // Update a specific post
   postUpdate: async (req, res) => {
+    console.log(req.file);
     const { id } = req.params;
-    const { title, image, text, status } = req.body;
+    const { title, text, status } = req.body;
+    const image = req.file ? `/uploads/images/${req.file.filename}` : null;
 
     if (!title && !image && !text && !status) {
       return res

@@ -103,6 +103,17 @@ export const createPost = async (postData) => {
   return response.data;
 };
 
+export const updatePost = async (postId, postData) => {
+  const author = await fetchUserProfile();
+  const authorId = author.id;
+  postData = { ...postData, authorId };
+  console.log(postData);
+  const response = await apiClient.put(`/posts/${postId}`, postData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
+};
+
 export const deletePost = async (postId) => {
   const isConfirmed = window.confirm(
     "Are you sure you want to delete this post?"
