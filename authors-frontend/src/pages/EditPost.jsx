@@ -88,39 +88,47 @@ const EditPost = () => {
         onChange={(e) => setText(e.target.value)}
         margin="normal"
       />
-      <InputLabel id="status-select-label">Status</InputLabel>
-      <Select
-        labelId="status-select-label"
-        id="status-select"
-        value={status}
-        label="status"
-        onChange={handleStatusChange}
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={"flex-end"}
       >
-        <MenuItem value={"UNPUBLISHED"}>UNPUBLISHED</MenuItem>
-        <MenuItem value={"PUBLISHED"}>PUBLISHED</MenuItem>
-      </Select>
-      <Typography>
-        Original image:{" "}
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            setSelectedImage(originalImage);
+        <Box>
+          <InputLabel id="status-select-label">Status</InputLabel>
+          <Select
+            labelId="status-select-label"
+            id="status-select"
+            value={status}
+            label="status"
+            onChange={handleStatusChange}
+          >
+            <MenuItem value={"UNPUBLISHED"}>UNPUBLISHED</MenuItem>
+            <MenuItem value={"PUBLISHED"}>PUBLISHED</MenuItem>
+          </Select>
+        </Box>
+        <Typography>
+          Original image:{" "}
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              setSelectedImage(originalImage);
+            }}
+          >
+            {originalImage}
+          </a>
+        </Typography>
+        <input
+          type="file"
+          onChange={(e) => {
+            setImage(e.target.files[0]);
           }}
-        >
-          {originalImage}
-        </a>
-      </Typography>
-      <input
-        type="file"
-        onChange={(e) => {
-          setImage(e.target.files[0]);
-        }}
-        accept="image/*"
-      />
-      <Button type="submit" variant="contained">
-        Create Post
-      </Button>
+          accept="image/*"
+        />
+        <Button type="submit" variant="contained">
+          Update Post
+        </Button>
+      </Box>
       <Dialog open={!!selectedImage} onClose={handleImageClose}>
         <DialogContent>
           <CloseIcon

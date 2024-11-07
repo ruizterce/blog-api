@@ -168,15 +168,11 @@ const PostsTable = () => {
                   <TableCell>{post.status}</TableCell>
                   <TableCell>
                     <ButtonGroup orientation="vertical">
-                      <Button>
-                        <EditNoteIcon
-                          onClick={() => navigate(`/edit-post/${post.id}`)}
-                        ></EditNoteIcon>
+                      <Button onClick={() => navigate(`/edit-post/${post.id}`)}>
+                        <EditNoteIcon></EditNoteIcon>
                       </Button>
-                      <Button>
-                        <DeleteForeverIcon
-                          onClick={() => handleDelete(post.id)}
-                        ></DeleteForeverIcon>
+                      <Button onClick={() => handleDelete(post.id)}>
+                        <DeleteForeverIcon></DeleteForeverIcon>
                       </Button>
                     </ButtonGroup>
                   </TableCell>

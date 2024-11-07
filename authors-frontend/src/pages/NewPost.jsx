@@ -53,25 +53,33 @@ const NewPost = () => {
         onChange={(e) => setText(e.target.value)}
         margin="normal"
       />
-      <InputLabel id="status-select-label">Status</InputLabel>
-      <Select
-        labelId="status-select-label"
-        id="status-select"
-        value={status}
-        label="status"
-        onChange={handleStatusChange}
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={"flex-end"}
       >
-        <MenuItem value={"UNPUBLISHED"}>UNPUBLISHED</MenuItem>
-        <MenuItem value={"PUBLISHED"}>PUBLISHED</MenuItem>
-      </Select>
-      <input
-        type="file"
-        onChange={(e) => setImage(e.target.files[0])}
-        accept="image/*"
-      />
-      <Button type="submit" variant="contained">
-        Create Post
-      </Button>
+        <Box>
+          <InputLabel id="status-select-label">Status</InputLabel>
+          <Select
+            labelId="status-select-label"
+            id="status-select"
+            value={status}
+            label="status"
+            onChange={handleStatusChange}
+          >
+            <MenuItem value={"UNPUBLISHED"}>UNPUBLISHED</MenuItem>
+            <MenuItem value={"PUBLISHED"}>PUBLISHED</MenuItem>
+          </Select>
+        </Box>
+        <input
+          type="file"
+          onChange={(e) => setImage(e.target.files[0])}
+          accept="image/*"
+        />
+        <Button type="submit" variant="contained">
+          Create Post
+        </Button>
+      </Box>
     </Box>
   );
 };
