@@ -20,7 +20,7 @@ const ModalContainer = () => {
     <div>
       <ButtonGroup size="small" aria-label="Button group">
         <Button
-          color="white"
+          color="buttonGrey"
           variant="contained"
           startIcon={<Face6RoundedIcon />}
           onClick={() => handleOpen("login")}
@@ -28,7 +28,7 @@ const ModalContainer = () => {
           Login
         </Button>
         <Button
-          color="white"
+          color="buttonGrey"
           variant="contained"
           endIcon={<AppRegistrationRoundedIcon />}
           onClick={() => handleOpen("register")}

@@ -69,13 +69,13 @@ const RegisterForm = ({ onClose }) => {
           <Button
             type="submit"
             variant="contained"
-            color="primary"
+            color="buttonGrey"
             fullWidth
             sx={{ mt: 2 }}
           >
             Register
           </Button>
-          <Button onClick={onClose} color="secondary" sx={{ mt: 1 }}>
+          <Button onClick={onClose} color="error" sx={{ mt: 1 }}>
             Cancel
           </Button>
         </Box>

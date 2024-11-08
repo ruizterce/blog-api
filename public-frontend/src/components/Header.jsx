@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
 import ModalContainer from "./ModalContainer";
 import { fetchUserProfile, logout } from "../services/api";
 
@@ -47,13 +47,13 @@ const Header = () => {
           onClick={handleLogoClick}
           sx={{ textTransform: "none", color: "inherit" }}
         >
-          <Typography variant="h6" component="div">
+          <Typography color="discreteGrey" variant="h6" component="div">
             My Blog
           </Typography>
         </Button>
         <Typography
           variant="subtitle1"
-          color="textSecondary"
+          color="discreteGrey"
           sx={{
             display: { xs: "none", sm: "block" },
           }}
@@ -61,14 +61,28 @@ const Header = () => {
           Your daily dose of knowledge
         </Typography>
         {username ? (
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Typography variant="body1" sx={{ marginRight: 1 }}>
-              Welcome, {username}!
+          <Box display={"flex"} alignItems={"center"}>
+            <Typography
+              color="discreteGrey"
+              display={"flex"}
+              variant="body1"
+              sx={{ marginRight: 1 }}
+            >
+              Welcome,
+              <Typography marginLeft={0.5} color="secondary">
+                {username}
+              </Typography>
+              !
             </Typography>
-            <Button color="inherit" onClick={handleLogout}>
+            <Button
+              color="buttonGrey"
+              variant="contained"
+              size="small"
+              onClick={handleLogout}
+            >
               Logout
             </Button>
-          </div>
+          </Box>
         ) : (
           <ModalContainer />
         )}

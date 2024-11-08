@@ -96,6 +96,7 @@ const Home = () => {
         <Button
           onClick={toggleSortOrder}
           sx={{ paddingLeft: 3, paddingRight: 2 }}
+          color="discreteGrey"
         >
           Sort <TableSortLabel active direction={sortOrder}></TableSortLabel>
         </Button>

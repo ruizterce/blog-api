@@ -129,7 +129,12 @@ const PostCard = ({ post }) => {
           />
         )}
         <StyledCardContent>
-          <Typography gutterBottom variant="h6" component="div">
+          <Typography
+            gutterBottom
+            variant="h6"
+            component="div"
+            color="secondary"
+          >
             {post.title}
           </Typography>
           <StyledTypography variant="body2" color="text.secondary" gutterBottom>

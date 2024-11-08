@@ -108,7 +108,12 @@ const PostDetails = () => {
           />
         )}
         <CardContent>
-          <Typography variant="h4" component="h1" color="primary" gutterBottom>
+          <Typography
+            variant="h4"
+            component="h1"
+            color="secondary"
+            gutterBottom
+          >
             {post.title}
           </Typography>
           <Box display="flex" alignItems="center" gap={2} mb={2}>
@@ -169,7 +174,7 @@ const PostDetails = () => {
               onChange={(e) => setNewComment(e.target.value)}
               sx={{ mb: 2 }}
             />
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="buttonGrey">
               Post Comment
             </Button>
           </Box>
