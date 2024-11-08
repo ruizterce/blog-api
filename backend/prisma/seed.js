@@ -97,7 +97,7 @@ async function main() {
            A lot of thought has been put into exploring the potential outcomes and challenges associated 
            with these trends. Once published, this article is bound to gain traction and encourage readers 
            to consider long-term effects.`,
-      status: "UNPUBLISHED",
+      status: "PUBLISHED",
       authorId: author1.id,
       comments: {
         create: [
@@ -234,6 +234,126 @@ async function main() {
           { text: "This guide is extremely helpful!", userId: visitor1.id },
           {
             text: "I appreciate the effort put into this, thanks!",
+            userId: visitor3.id,
+          },
+        ],
+      },
+    },
+  });
+
+  await prisma.post.create({
+    data: {
+      title: "The Future of AI by Author 1",
+      image: "/uploads/images/post10.jpg",
+      text: `In this post, Author 1 delves into the exciting and ever-evolving field of Artificial Intelligence. 
+            The article explores its current applications, future potential, and the ethical considerations that 
+            will shape the development of AI technologies over the next decade.`,
+      status: "PUBLISHED",
+      authorId: author1.id,
+      comments: {
+        create: [
+          {
+            text: "Amazing insights! Looking forward to more on AI.",
+            userId: visitor1.id,
+          },
+          {
+            text: "This was a great read, thanks for sharing!",
+            userId: visitor2.id,
+          },
+        ],
+      },
+    },
+  });
+
+  await prisma.post.create({
+    data: {
+      title: "New Frontiers in Space Exploration by Author 3",
+      image: "/uploads/images/post11.jpg",
+      text: `Author 3 provides a deep dive into the exciting new frontiers of space exploration. 
+            This article highlights the latest missions, breakthroughs in technology, and what the future holds for humanity’s 
+            journey beyond our planet. The possibilities are endless, and Author 3 presents a compelling case for why we should 
+            keep pushing the boundaries.`,
+      status: "PUBLISHED",
+      authorId: author3.id,
+      comments: {
+        create: [
+          {
+            text: "Incredible article! Space exploration is the future.",
+            userId: visitor1.id,
+          },
+          {
+            text: "I loved the perspective on future missions. Very exciting!",
+            userId: visitor3.id,
+          },
+        ],
+      },
+    },
+  });
+
+  await prisma.post.create({
+    data: {
+      title: "Exploring the Metaverse by Author 2",
+      image: "/uploads/images/post12.jpg",
+      text: `Author 2 explores the concept of the Metaverse, a digital universe where people interact, work, and play. 
+            This post breaks down the elements that make up the Metaverse, its potential impact on various industries, and 
+            the challenges that still need to be addressed before it becomes a fully realized virtual world.`,
+      status: "PUBLISHED",
+      authorId: author2.id,
+      comments: {
+        create: [
+          {
+            text: "The Metaverse is so fascinating. Great breakdown!",
+            userId: visitor2.id,
+          },
+          {
+            text: "I agree, the potential for this is huge. Can’t wait to see more.",
+            userId: visitor1.id,
+          },
+        ],
+      },
+    },
+  });
+
+  await prisma.post.create({
+    data: {
+      title: "Digital Privacy in 2024 by Author 1",
+      text: `As digital technology continues to advance, so does the issue of privacy. Author 1 takes a close look at the 
+            state of digital privacy in 2024, exploring current trends in data protection, potential risks, and best practices 
+            for maintaining privacy in the increasingly connected world.`,
+      status: "UNPUBLISHED",
+      authorId: author1.id,
+      comments: {
+        create: [
+          {
+            text: "So relevant! Privacy is definitely a big concern nowadays.",
+            userId: visitor3.id,
+          },
+          {
+            text: "Great post, definitely need more awareness about digital privacy.",
+            userId: visitor1.id,
+          },
+        ],
+      },
+    },
+  });
+
+  await prisma.post.create({
+    data: {
+      title: "The Rise of Remote Work by Author 2",
+      image: "/uploads/images/post11.jpg",
+      text: `With the ongoing shifts in the workforce, Author 2 discusses the rapid rise of remote work and how companies 
+            are adapting to a decentralized model. This post covers both the pros and cons of remote work, as well as the 
+            long-term implications for the workplace culture and work-life balance.`,
+      status: "UNPUBLISHED",
+      authorId: author2.id,
+      comments: {
+        create: [
+          {
+            text: "Remote work is the future. Loved this article!",
+            userId: visitor2.id,
+          },
+          {
+            text: "Thanks for sharing these insights. Very informative.",
             userId: visitor3.id,
           },
         ],
