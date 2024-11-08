@@ -18,6 +18,11 @@ import {
   ButtonGroup,
   Dialog,
   DialogContent,
+  TableSortLabel,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -30,7 +35,10 @@ const PostsTable = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [authorFilter, setAuthorFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
     const getPosts = async () => {
@@ -46,20 +54,28 @@ const PostsTable = () => {
     getPosts();
   }, []);
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  const uniqueAuthors = [...new Set(posts.map((post) => post.author))];
 
-  const filteredPosts = posts.filter(
-    (post) =>
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.text.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleSearchChange = (event) => setSearchTerm(event.target.value);
+  const handleAuthorChange = (event) => setAuthorFilter(event.target.value);
+  const handleStatusChange = (event) => setStatusFilter(event.target.value);
+
+  const filteredPosts = posts
+    .filter(
+      (post) =>
+        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        post.text.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((post) => (authorFilter ? post.author === authorFilter : true))
+    .filter((post) => (statusFilter ? post.status === statusFilter : true))
+    .sort((a, b) => {
+      if (sortOrder === "asc") return a.id - b.id;
+      return b.id - a.id;
+    });
 
   const handleDelete = async (postId) => {
     try {
       await deletePost(postId);
-
       const updatedPosts = await fetchPosts();
       setPosts(updatedPosts);
     } catch (error) {
@@ -67,12 +83,11 @@ const PostsTable = () => {
     }
   };
 
-  const handleImageClick = (imageUrl) => {
-    setSelectedImage(imageUrl);
-  };
+  const handleImageClick = (imageUrl) => setSelectedImage(imageUrl);
+  const handleImageClose = () => setSelectedImage(null);
 
-  const handleImageClose = () => {
-    setSelectedImage(null);
+  const toggleSortOrder = () => {
+    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
   };
 
   if (loading) return <CircularProgress />;
@@ -81,9 +96,9 @@ const PostsTable = () => {
   return (
     <Container className="container" sx={{ marginTop: 0 }}>
       <Box
-        display={"flex"}
-        justifyContent={"space-between"}
-        alignItems={"center"}
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
         marginTop={1}
         marginBottom={1}
       >
@@ -103,25 +118,53 @@ const PostsTable = () => {
         >
           New Post
         </Button>
-        <Box sx={{ width: "100%", maxWidth: 300, flexShrink: 1 }}>
+      </Box>
+
+      {/* Filter Options */}
+      <Box display="flex" justifyContent={"space-between"} gap={2} mb={2}>
+        <FormControl sx={{ width: 200 }} size="small">
+          <InputLabel>Filter by Author</InputLabel>
+          <Select
+            value={authorFilter}
+            onChange={handleAuthorChange}
+            label="Filter by Author"
+            size="small"
+          >
+            <MenuItem value="">All Authors</MenuItem>
+            {uniqueAuthors.map((author) => (
+              <MenuItem key={author} value={author}>
+                {author}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <Box sx={{ width: "100%", maxWidth: "60%", flexGrow: 1 }}>
           <TextField
             fullWidth
             size="small"
             variant="outlined"
             placeholder="Search articles..."
             onChange={handleSearchChange}
-            sx={{
-              "& .MuiInputBase-input": {
-                fontSize: "0.8rem",
-                padding: "6px 8px",
-              },
-              "& .MuiOutlinedInput-root": {
-                height: "32px",
-              },
-            }}
           />
         </Box>
+
+        <FormControl sx={{ width: 200 }} size="small">
+          <InputLabel>Filter by Status</InputLabel>
+          <Select
+            value={statusFilter}
+            onChange={handleStatusChange}
+            label="Filter by Status"
+            size="small"
+          >
+            <MenuItem value="">All Statuses</MenuItem>
+            <MenuItem value="PUBLISHED">Published</MenuItem>
+            <MenuItem value="UNPUBLISHED">Unpublished</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
+
+      {/* Table Display */}
       {filteredPosts.length === 0 ? (
         <Typography variant="body1" color="textSecondary" sx={{ mt: 2 }}>
           No posts found matching your search criteria.
@@ -131,7 +174,15 @@ const PostsTable = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>ID </TableCell>
+                <TableCell>
+                  <TableSortLabel
+                    active
+                    direction={sortOrder}
+                    onClick={toggleSortOrder}
+                  >
+                    ID
+                  </TableSortLabel>
+                </TableCell>
                 <TableCell>Author</TableCell>
                 <TableCell>Image</TableCell>
                 <TableCell>Title</TableCell>
@@ -139,6 +190,7 @@ const PostsTable = () => {
                 <TableCell>Created</TableCell>
                 <TableCell>Updated</TableCell>
                 <TableCell>Status</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -150,7 +202,6 @@ const PostsTable = () => {
                   <TableCell>{post.id}</TableCell>
                   <TableCell>{post.author}</TableCell>
                   <TableCell>
-                    {" "}
                     <a
                       href="#"
                       onClick={(e) => {
@@ -169,10 +220,10 @@ const PostsTable = () => {
                   <TableCell>
                     <ButtonGroup orientation="vertical">
                       <Button onClick={() => navigate(`/edit-post/${post.id}`)}>
-                        <EditNoteIcon></EditNoteIcon>
+                        <EditNoteIcon />
                       </Button>
                       <Button onClick={() => handleDelete(post.id)}>
-                        <DeleteForeverIcon></DeleteForeverIcon>
+                        <DeleteForeverIcon />
                       </Button>
                     </ButtonGroup>
                   </TableCell>
@@ -182,13 +233,15 @@ const PostsTable = () => {
           </Table>
         </TableContainer>
       )}
+
+      {/* Image Dialog */}
       <Dialog open={!!selectedImage} onClose={handleImageClose}>
         <DialogContent>
           <CloseIcon
             aria-label="close"
             onClick={handleImageClose}
             sx={{ position: "absolute", right: 8, top: 8 }}
-          ></CloseIcon>
+          />
           {selectedImage && (
             <img
               src={`${import.meta.env.VITE_API_URL + selectedImage}`}
