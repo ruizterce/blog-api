@@ -14,7 +14,14 @@ import {
   CircularProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { updatePost, fetchPostById } from "../services/api";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  updatePost,
+  fetchPostById,
+  updateComment,
+  deleteComment,
+} from "../services/api";
 
 const EditPost = () => {
   const { id } = useParams();
@@ -26,6 +33,7 @@ const EditPost = () => {
   const [originalImage, setOriginalImage] = useState(null);
   const [status, setStatus] = useState("UNPUBLISHED");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [comments, setComments] = useState([]);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -42,6 +50,20 @@ const EditPost = () => {
     setSelectedImage(null);
   };
 
+  const handleEditComment = async (commentId, updatedText) => {
+    await updateComment(id, commentId, { text: updatedText });
+    setComments(
+      comments.map((c) =>
+        c.id === commentId ? { ...c, text: updatedText } : c
+      )
+    );
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    await deleteComment(id, commentId);
+    setComments(comments.filter((c) => c.id !== commentId));
+  };
+
   useEffect(() => {
     const fetchPost = async (id) => {
       try {
@@ -50,6 +72,7 @@ const EditPost = () => {
         setText(data.text);
         setOriginalImage(data.image);
         setStatus(data.status);
+        setComments(data.comments);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -129,6 +152,40 @@ const EditPost = () => {
           Update Post
         </Button>
       </Box>
+
+      {/* Comments Section */}
+      <Box mt={4}>
+        <Typography variant="h6">Comments</Typography>
+        {comments.map((comment) => (
+          <Box key={comment.id} display="flex" alignItems="center" mb={2}>
+            <TextField
+              fullWidth
+              value={comment.text}
+              onChange={(e) => {
+                const newText = e.target.value;
+                setComments(
+                  comments.map((c) =>
+                    c.id === comment.id ? { ...c, text: newText } : c
+                  )
+                );
+              }}
+            />
+            <Button
+              color="primary"
+              onClick={() => handleEditComment(comment.id, comment.text)}
+            >
+              <EditIcon />
+            </Button>
+            <Button
+              color="secondary"
+              onClick={() => handleDeleteComment(comment.id)}
+            >
+              <DeleteIcon />
+            </Button>
+          </Box>
+        ))}
+      </Box>
+
       <Dialog open={!!selectedImage} onClose={handleImageClose}>
         <DialogContent>
           <CloseIcon

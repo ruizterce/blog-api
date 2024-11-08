@@ -131,3 +131,39 @@ export const deletePost = async (postId) => {
     console.log("Post deletion canceled.");
   }
 };
+
+export const updateComment = async (postId, commentId, data) => {
+  const isConfirmed = window.confirm(
+    "Are you sure you want to update this comment?"
+  );
+  if (isConfirmed) {
+    const response = await apiClient.put(
+      `/posts/${postId}/comments/${commentId}`,
+      data
+    );
+    window.alert("Comment updated");
+    return response.data;
+  } else {
+    console.log("Post update canceled.");
+  }
+};
+
+export const deleteComment = async (postId, commentId) => {
+  const isConfirmed = window.confirm(
+    "Are you sure you want to delete this comment?"
+  );
+
+  if (isConfirmed) {
+    try {
+      const response = await apiClient.delete(
+        `/posts/${postId}/comments/${commentId}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      throw error;
+    }
+  } else {
+    console.log("Post deletion canceled.");
+  }
+};
