@@ -213,9 +213,31 @@ const PostsTable = () => {
                     </a>
                   </TableCell>
                   <TableCell>{post.title}</TableCell>
-                  <TableCell>{post.text}</TableCell>
-                  <TableCell>{post.createdAt}</TableCell>
-                  <TableCell>{post.updatedAt}</TableCell>
+                  <TableCell>
+                    {" "}
+                    {post.text.length > 80
+                      ? post.text.slice(0, 80) + "..."
+                      : post.text}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(post.createdAt).toLocaleString("en-GB", {
+                      year: "2-digit",
+                      month: "2-digit",
+                      day: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </TableCell>
+                  <TableCell>
+                    {" "}
+                    {new Date(post.updatedAt).toLocaleString("en-GB", {
+                      year: "2-digit",
+                      month: "2-digit",
+                      day: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </TableCell>
                   <TableCell>{post.status}</TableCell>
                   <TableCell>
                     <ButtonGroup orientation="vertical">
