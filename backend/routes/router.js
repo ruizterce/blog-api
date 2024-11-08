@@ -6,6 +6,7 @@ const usersController = require("../controllers/usersController");
 // GET ROUTES
 router.get("/", controller.get);
 router.get("/posts", controller.postsGet);
+router.get("/posts/published", controller.postsGetPublished);
 router.get("/posts/:id", controller.postByIdGet);
 router.get(
   "/user/profile",

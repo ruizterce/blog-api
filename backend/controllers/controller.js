@@ -122,6 +122,43 @@ module.exports = {
     }
   },
 
+  // Get all published posts
+  postsGetPublished: async (req, res) => {
+    try {
+      const posts = await prisma.post.findMany({
+        where: {
+          status: "PUBLISHED",
+        },
+        include: {
+          author: {
+            select: {
+              username: true,
+            },
+          },
+          comments: true,
+        },
+      });
+
+      // Map through posts to add the count of comments
+      const formattedPosts = posts.map((post) => ({
+        id: post.id,
+        title: post.title,
+        image: post.image,
+        text: post.text,
+        status: post.status,
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt,
+        author: post.author.username,
+        commentCount: post.comments.length,
+      }));
+
+      res.json(formattedPosts);
+    } catch (error) {
+      console.error("Error fetching published posts:", error);
+      res.status(500).json({ error: "Failed to fetch published posts" });
+    }
+  },
+
   // Get post by id including author and comments
   postByIdGet: async (req, res) => {
     const { id } = req.params;

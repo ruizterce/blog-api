@@ -23,7 +23,7 @@ apiClient.interceptors.request.use(
 
 // API functions
 export const fetchPosts = async () => {
-  const response = await apiClient.get("/posts");
+  const response = await apiClient.get("/posts/published");
   return response.data;
 };
 
