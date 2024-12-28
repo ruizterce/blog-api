@@ -1,5 +1,7 @@
 # Public Frontend
 
+![alt text](screenshots/Public-1.png)
+
 ## Overview
 
 The public frontend of the Multi-Frontend Blogging Platform is a single-page application (SPA) designed for general users. Built using [React](https://reactjs.org/) and [Vite](https://vitejs.dev/), it offers a modern and engaging user experience.
@@ -14,6 +16,6 @@ The public frontend of the Multi-Frontend Blogging Platform is a single-page app
 
 ## Features
 
-- **Browse Posts**: Users or anonymous visitors can view a list of blog posts with summaries and thumbnails.
+- **Browse Posts**: Users or anonymous visitors can view and filter a list of blog posts with summaries and thumbnails.
 - **Read Posts**: Each post can be clicked to view detailed content, along with comments from other users.
 - **Commenting System**: Users can leave comments on posts to engage with authors and other readers.
